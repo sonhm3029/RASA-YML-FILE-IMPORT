@@ -1,0 +1,82 @@
+.App {
+  --light-color-1: #ffede1;
+  --light-color-2: #ffede1;
+  --normal-color: #d7f9ff;
+  --dark-color-1: #afcbff;
+  --dark-color-2: #0e1c36;
+
+  --header-height: 80px;
+  --footer-height: 80px;
+
+  text-align: center;
+  min-height: 100vh;
+  .app-container {
+    margin-left: auto;
+    margin-right: auto;
+    position: relative;
+    overflow: hidden;
+    .app-header {
+      background-color: var(--dark-color-2);
+      color: var(--light-color-1);
+      height: var(--header-height);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .switch-method {
+      padding: 16px;
+      display: flex;
+      .ant-btn {
+        margin-right: 8px;
+      }
+      .select-sheet {
+        flex: 50%;
+        margin-right: 8px;
+      }
+    }
+    .app-content {
+      padding: 16px;
+      background-color: white;
+      height: calc(100vh - var(--header-height) - var(--footer-height) - 94px);
+      display: flex;
+      overflow-y: scroll;
+      .editor-left,
+      .editor-right {
+        padding: 12px;
+      }
+      .editor-left {
+        flex: 1;
+      }
+      .editor-right {
+        flex: 1;
+      }
+
+      .editor {
+        counter-reset: line;
+        border: 1px solid #ced4da;
+      }
+
+      .editor #codeArea {
+        outline: none;
+        padding-left: 60px !important;
+      }
+
+      .editor pre {
+        padding-left: 60px !important;
+      }
+
+      .editor .editorLineNumber {
+        position: absolute;
+        left: 0px;
+        color: #cccccc;
+        text-align: right;
+        width: 40px;
+        font-weight: 100;
+      }
+    }
+    .app-footer {
+      height: var(--footer-height);
+    }
+  }
+}
