@@ -9,6 +9,7 @@ import {
   Switch,
   Upload,
   Tour,
+  Tabs,
 } from "antd";
 import { Content, Footer, Header } from "antd/es/layout/layout";
 import "antd/dist/reset.css";
@@ -39,11 +40,13 @@ const listConvertMethods = [
 function App() {
   const [state, setState] = useCustomState({
     codeRight: "",
-    codeLeft: "",
+    codeRule: "",
+    codeResponse: "",
     fileList: [],
     listSheets: [],
     convertResult: "",
     convertMethod: 10,
+    toggleRulesRes: 1,
   });
 
   const footerRef = useRef(null);
@@ -95,7 +98,8 @@ function App() {
       fileList: [],
       listSheets: [],
       currentSheet: null,
-      codeLeft: "",
+      codeRule: "",
+      codeResponse: "",
       codeRight: "",
     });
   };
@@ -148,33 +152,42 @@ function App() {
 
   const convertStories = (rows) => {
     let stories = [];
+    let responses = {};
     let obj = {
       rule: "",
       step: [],
     };
-    let count = 0;
+
     let tempResponse = "";
 
     for (let row of rows) {
       if (Object.keys(row)?.includes("intent")) {
-        count += 1;
         obj["rule"] =
           nonAccentVietnameseKeepCase(row.intent).split(" ").join("_") +
           " rule";
 
+        let intent = nonAccentVietnameseKeepCase(row.intent)
+          .split(" ")
+          .join("_");
+
         let step_intent = {
-          intent: nonAccentVietnameseKeepCase(row.intent),
+          intent,
         };
 
-        let step_action;
+        let step_action = {
+          action: `utter_${intent}`,
+        };
+
+        let step_response;
+
         if (row?.response) {
           tempResponse = row?.response;
-          step_action = {
-            action: row?.response?.trim(),
+          step_response = {
+            text: row?.response,
           };
         } else {
-          step_action = {
-            action: tempResponse,
+          step_response = {
+            text: tempResponse,
           };
         }
 
@@ -183,6 +196,7 @@ function App() {
 
         let newObj = { ...obj };
         stories.push(newObj);
+        responses[`utter_${intent}`] = [step_response];
 
         obj = {
           rule: "",
@@ -191,13 +205,18 @@ function App() {
       }
     }
 
-    let result = {
+    let resultRule = {
       version: "",
       rules: stories,
     };
 
+    let resultResponse = {
+      responses: responses,
+    };
+
     setState({
-      codeLeft: stringify(result),
+      codeRule: stringify(resultRule),
+      codeResponse: stringify(resultResponse),
     });
   };
 
@@ -225,7 +244,16 @@ function App() {
   };
 
   const handleDownloadExcel = () => {
-    window.open("/RASA-YML-FILE-IMPORT/template/Kịch bản tương tác.xlsx", "_blank");
+    window.open(
+      "/RASA-YML-FILE-IMPORT/template/Kịch bản tương tác.xlsx",
+      "_blank"
+    );
+  };
+
+  const handleToggleViewRules = (value) => {
+    setState({
+      toggleRulesRes: value,
+    });
   };
 
   return (
@@ -267,9 +295,26 @@ function App() {
         </div>
         <Content className="app-content">
           <div className="editor-left">
-            <h1>Rules</h1>
+            <Tabs
+              activeKey={state.toggleRulesRes}
+              items={[
+                {
+                  label: "Rules",
+                  key: 1,
+                },
+                {
+                  label: "Response",
+                  key: 2,
+                },
+              ]}
+              onChange={handleToggleViewRules}
+            />
             <Editor
-              value={state.codeLeft}
+              value={
+                state?.toggleRulesRes === 1
+                  ? state.codeRule
+                  : state.codeResponse
+              }
               onValueChange={(code) => changeEditorValue(code, "Left")}
               highlight={(code) =>
                 hightlightWithLineNumbers(code, languages.js)
@@ -285,7 +330,14 @@ function App() {
             />
           </div>
           <div className="editor-right">
-            <h1>NLU</h1>
+            <Tabs
+              items={[
+                {
+                  label: "NLU",
+                  key: 1,
+                },
+              ]}
+            />
             <Editor
               value={state.codeRight}
               onValueChange={(code) => changeEditorValue(code, "Right")}
