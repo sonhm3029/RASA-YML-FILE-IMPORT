@@ -225,7 +225,7 @@ function App() {
   };
 
   const handleDownloadExcel = () => {
-    window.open("/template/Kịch bản tương tác.xlsx", "_blank");
+    window.open("/RASA-YML-FILE-IMPORT/template/Kịch bản tương tác.xlsx", "_blank");
   };
 
   return (
