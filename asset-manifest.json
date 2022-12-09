@@ -1,16 +1,16 @@
 {
   "files": {
     "main.css": "/RASA-YML-FILE-IMPORT/static/css/main.16e9460a.css",
-    "main.js": "/RASA-YML-FILE-IMPORT/static/js/main.608fcc5d.js",
+    "main.js": "/RASA-YML-FILE-IMPORT/static/js/main.dc63a46d.js",
     "static/js/787.e8b1b604.chunk.js": "/RASA-YML-FILE-IMPORT/static/js/787.e8b1b604.chunk.js",
     "static/media/logo.svg": "/RASA-YML-FILE-IMPORT/static/media/logo.6ce24c58023cc2f8fd88fe9d219db6c6.svg",
     "index.html": "/RASA-YML-FILE-IMPORT/index.html",
     "main.16e9460a.css.map": "/RASA-YML-FILE-IMPORT/static/css/main.16e9460a.css.map",
-    "main.608fcc5d.js.map": "/RASA-YML-FILE-IMPORT/static/js/main.608fcc5d.js.map",
+    "main.dc63a46d.js.map": "/RASA-YML-FILE-IMPORT/static/js/main.dc63a46d.js.map",
     "787.e8b1b604.chunk.js.map": "/RASA-YML-FILE-IMPORT/static/js/787.e8b1b604.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.16e9460a.css",
-    "static/js/main.608fcc5d.js"
+    "static/js/main.dc63a46d.js"
   ]
 }
