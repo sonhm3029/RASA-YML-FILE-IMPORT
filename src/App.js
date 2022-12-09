@@ -155,7 +155,7 @@ function App() {
     let responses = {};
     let obj = {
       rule: "",
-      step: [],
+      steps: [],
     };
 
     let tempResponse = "";
@@ -191,8 +191,8 @@ function App() {
           };
         }
 
-        obj.step.push(step_intent);
-        obj.step.push(step_action);
+        obj.steps.push(step_intent);
+        obj.steps.push(step_action);
 
         let newObj = { ...obj };
         stories.push(newObj);
@@ -200,7 +200,7 @@ function App() {
 
         obj = {
           rule: "",
-          step: [],
+          steps: [],
         };
       }
     }
