@@ -51,9 +51,6 @@ function App() {
 
   const footerRef = useRef(null);
   // const footerHeight = useMemo(() => {}, []);
-  useEffect(() => {
-    console.log(footerRef?.current);
-  }, [footerRef]);
 
   const hightlightWithLineNumbers = (input, language) =>
     highlight(input, language)
@@ -84,7 +81,6 @@ function App() {
           })),
         });
       });
-      console.log(file);
     } else if (file?.status === "error") {
       notification.success({
         message: "Upload file error!",
@@ -137,14 +133,25 @@ function App() {
         obj["examples"] = "";
       }
       obj["examples"] += `- ${row.examples}\n`;
-      console.log(obj);
     }
 
     let result = {
       version: "",
       nlu: nlu,
     };
-    console.log(result);
+    let showIntents = [
+      ...new Set(
+        rows
+          ?.filter((row) => Object.keys(row)?.includes("intent"))
+          ?.map((item) =>
+            nonAccentVietnameseKeepCase(item?.intent).split(" ").join("_")
+          )
+      ),
+    ];
+    console.log("INTENTS");
+    let showIntentsString = showIntents.join("\n- ");
+    console.log(`- ${showIntentsString}`);
+    console.table(showIntents);
     setState({
       codeRight: stringify(result),
     });
@@ -231,7 +238,6 @@ function App() {
 
     readXlsxFile(file, { sheet: state.currentSheet, map: fileMapping })
       .then(({ rows }) => {
-        console.log(rows);
         convertNLU(rows);
         convertStories(rows);
       })
